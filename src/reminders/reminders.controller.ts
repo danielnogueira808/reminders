@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Logger } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Logger,
+} from '@nestjs/common';
 import { RemindersService } from './reminders.service';
 import { CreateReminderDto } from './dto/create-reminder.dto';
 import { UpdateReminderDto } from './dto/update-reminder.dto';
@@ -11,7 +20,9 @@ export class RemindersController {
 
   @Post()
   create(@Body() createReminderDto: CreateReminderDto) {
-    this.logger.log(`Creating new reminder: ${JSON.stringify(createReminderDto)}`);
+    this.logger.log(
+      `Creating new reminder: ${JSON.stringify(createReminderDto)}`,
+    );
     return this.remindersService.create(createReminderDto);
   }
 
@@ -28,8 +39,13 @@ export class RemindersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReminderDto: UpdateReminderDto) {
-    this.logger.log(`Updating reminder ${id} with data: ${JSON.stringify(updateReminderDto)}`);
+  update(
+    @Param('id') id: string,
+    @Body() updateReminderDto: UpdateReminderDto,
+  ) {
+    this.logger.log(
+      `Updating reminder ${id} with data: ${JSON.stringify(updateReminderDto)}`,
+    );
     return this.remindersService.update(id, updateReminderDto);
   }
 
