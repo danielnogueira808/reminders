@@ -8,7 +8,13 @@ describe('RemindersController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [RemindersController],
-      providers: [RemindersService],
+      providers: [
+        RemindersService,
+        {
+          provide: 'ReminderModel',
+          useValue: {}, // Mock ReminderModel with empty object for now
+        },
+      ],
     }).compile();
 
     controller = module.get<RemindersController>(RemindersController);
