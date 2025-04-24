@@ -3,11 +3,17 @@ import { Document } from 'mongoose';
 
 export type ReminderDocument = Reminder & Document;
 
-export enum ReminderType {
+export enum ReminderRecurring {
+  Single = 1,
   Daily,
   Weekly,
   Monthly,
   Yearly,
+}
+
+export enum ReminderType {
+  Reminder = 1,
+  Bill,
 }
 
 @Schema()
@@ -24,8 +30,8 @@ export class Reminder {
   @Prop({ required: true })
   type: ReminderType;
 
-  @Prop({ default: false })
-  recurring: boolean;
+  @Prop({ default: ReminderRecurring.Single })
+  recurring: ReminderRecurring;
 
   @Prop({ default: false })
   completed: boolean;
