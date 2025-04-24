@@ -7,9 +7,7 @@ import { Reminder, ReminderDocument } from './schemas/reminder.schema';
 
 @Injectable()
 export class RemindersService {
-  constructor(
-    @InjectModel(Reminder.name) private reminderModel: Model<ReminderDocument>,
-  ) {}
+  constructor(@InjectModel(Reminder.name) private reminderModel: Model<ReminderDocument>) {}
 
   async create(createReminderDto: CreateReminderDto): Promise<Reminder> {
     const createdReminder = new this.reminderModel(createReminderDto);
@@ -25,20 +23,13 @@ export class RemindersService {
     return this.handleNotFound(reminder);
   }
 
-  async update(
-    id: string,
-    updateReminderDto: UpdateReminderDto,
-  ): Promise<Reminder> {
-    const updatedReminder = await this.reminderModel
-      .findByIdAndUpdate(id, updateReminderDto, { new: true })
-      .exec();
+  async update(id: string, updateReminderDto: UpdateReminderDto): Promise<Reminder> {
+    const updatedReminder = await this.reminderModel.findByIdAndUpdate(id, updateReminderDto, { new: true }).exec();
     return this.handleNotFound(updatedReminder);
   }
 
   async remove(id: string): Promise<Reminder> {
-    const deletedReminder = await this.reminderModel
-      .findByIdAndDelete(id)
-      .exec();
+    const deletedReminder = await this.reminderModel.findByIdAndDelete(id).exec();
     return this.handleNotFound(deletedReminder);
   }
 

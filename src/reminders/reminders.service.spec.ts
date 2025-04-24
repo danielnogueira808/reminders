@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { RemindersService } from './reminders.service';
-import { Reminder } from './schemas/reminder.schema';
+import { Reminder, ReminderRecurring, ReminderType } from './schemas/reminder.schema';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 describe('RemindersService', () => {
@@ -12,6 +12,9 @@ describe('RemindersService', () => {
     title: 'Test Reminder',
     description: 'Test Description',
     date: new Date(),
+    recurring: ReminderRecurring.Daily,
+    type: ReminderType.Reminder,
+    completed: false,
   };
 
   const mockReminderModel = {
@@ -49,6 +52,7 @@ describe('RemindersService', () => {
         title: 'Test Reminder',
         description: 'Test Description',
         date: new Date(),
+        type: ReminderType.Reminder,
       };
 
       jest.spyOn(mockReminderModel, 'save').mockResolvedValueOnce(mockReminder);
@@ -112,9 +116,7 @@ describe('RemindersService', () => {
         exec: jest.fn().mockResolvedValueOnce(null),
       } as any);
 
-      await expect(
-        service.update('test-id', { title: 'Updated Reminder' }),
-      ).rejects.toThrow(
+      await expect(service.update('test-id', { title: 'Updated Reminder' })).rejects.toThrow(
         new HttpException('Reminder not found', HttpStatus.NOT_FOUND),
       );
     });
